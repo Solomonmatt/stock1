@@ -1,23 +1,29 @@
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
-import { signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
-import { auth } from '../firebase'; // Configure Firebase separately
 
 export default function Login() {
   const { t } = useTranslation('common');
   const router = useRouter();
 
   const handleGoogleLogin = async () => {
-    const provider = new GoogleAuthProvider();
     try {
+      // Dynamically import Firebase modules (client-side only)
+      const { getAuth, signInWithPopup, GoogleAuthProvider } = await import('firebase/auth');
+      const { app } = await import('../firebase'); // Make sure firebase.js exports `app`
+
+      const auth = getAuth(app);
+      const provider = new GoogleAuthProvider();
+
       const result = await signInWithPopup(auth, provider);
       const token = await result.user.getIdToken();
+
       await fetch('/api/auth/google', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ token }),
       });
+
       router.push('/dashboard');
     } catch (error) {
       console.error('Login failed:', error);
