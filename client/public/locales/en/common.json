@@ -1,0 +1,14 @@
+{
+    "home": "Welcome to Stock Chart Web",
+    "login": "Login",
+    "dashboard": "Dashboard",
+    "chart_board": "Chart Board",
+    "predict": "Predict Price",
+    "symbol": "Symbol",
+    "date": "Date",
+    "price": "Predicted Price",
+    "save": "Save Prediction",
+    "language": "Language",
+    "english": "English",
+    "korean": "Korean"
+  }
